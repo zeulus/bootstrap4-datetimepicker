@@ -1,10 +1,3 @@
-/*! version : 4.17.47
- =========================================================
- bootstrap-datetimejs
- https://github.com/Eonasdan/bootstrap-datetimepicker
- Copyright (c) 2015 Jonathan Peterson
- =========================================================
- */
 /*
  The MIT License (MIT)
 
@@ -64,6 +57,7 @@
             input,
             component = false,
             widget = false,
+            iconsSource = 'fontAwesome',
             use24Hours,
             minViewModeNumber = 0,
             actualFormat,
@@ -191,15 +185,31 @@
                 return (isEnabled('y') || isEnabled('M') || isEnabled('d'));
             },
 
+            addIcon = function(icon) {
+                if (options.iconsSource == 'material') {
+                    return getMaterialIcon(icon);
+                } else {
+                    return getFontAwesomeIcon(icon);
+                }
+            },
+
+            getFontAwesomeIcon = function (icon) {
+                return $('<i>').addClass(options.icons[icon]);
+            },
+
+            getMaterialIcon = function (icon) {
+                return $('<i>').addClass('material-icons').html(options.icons[icon]);
+            },
+
             getDatePickerTemplate = function () {
                 var headTemplate = $('<thead>')
                         .append($('<tr>')
                             .append($('<th>').addClass('prev').attr('data-action', 'previous')
-                                .append($('<i>').addClass(options.icons.previous))
+                                .append(addIcon('previous'))
                                 )
                             .append($('<th>').addClass('picker-switch').attr('data-action', 'pickerSwitch').attr('colspan', (options.calendarWeeks ? '6' : '5')))
                             .append($('<th>').addClass('next').attr('data-action', 'next')
-                                .append($('<i>').addClass(options.icons.next))
+                                .append(addIcon('next'))
                                 )
                             ),
                     contTemplate = $('<tbody>')
@@ -238,11 +248,11 @@
 
                 if (isEnabled('h')) {
                     topRow.append($('<td>')
-                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementHour }).addClass('btn').attr('data-action', 'incrementHours').append($('<i>').addClass(options.icons.up))));
+                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementHour }).addClass('btn').attr('data-action', 'incrementHours').append(addIcon('up'))));
                     middleRow.append($('<td>')
                         .append($('<span>').addClass('timepicker-hour').attr({ 'data-time-component': 'hours', 'title': options.tooltips.pickHour }).attr('data-action', 'showHours')));
                     bottomRow.append($('<td>')
-                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementHour }).addClass('btn').attr('data-action', 'decrementHours').append($('<i>').addClass(options.icons.down))));
+                        .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementHour }).addClass('btn').attr('data-action', 'decrementHours').append(addIcon('down'))));
                 }
                 if (isEnabled('m')) {
                     if (isEnabled('h')) {
@@ -252,12 +262,12 @@
                     }
                     topRow.append($('<td>')
                         .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementMinute }).addClass('btn').attr('data-action', 'incrementMinutes')
-                            .append($('<i>').addClass(options.icons.up))));
+                            .append(addIcon('up'))));
                     middleRow.append($('<td>')
                         .append($('<span>').addClass('timepicker-minute').attr({ 'data-time-component': 'minutes', 'title': options.tooltips.pickMinute }).attr('data-action', 'showMinutes')));
                     bottomRow.append($('<td>')
                         .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementMinute }).addClass('btn').attr('data-action', 'decrementMinutes')
-                            .append($('<i>').addClass(options.icons.down))));
+                            .append(addIcon('down'))));
                 }
                 if (isEnabled('s')) {
                     if (isEnabled('m')) {
@@ -267,12 +277,12 @@
                     }
                     topRow.append($('<td>')
                         .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.incrementSecond }).addClass('btn').attr('data-action', 'incrementSeconds')
-                            .append($('<i>').addClass(options.icons.up))));
+                            .append(addIcon('up'))));
                     middleRow.append($('<td>')
                         .append($('<span>').addClass('timepicker-second').attr({ 'data-time-component': 'seconds', 'title': options.tooltips.pickSecond }).attr('data-action', 'showSeconds')));
                     bottomRow.append($('<td>')
                         .append($('<a>').attr({ href: '#', tabindex: '-1', 'title': options.tooltips.decrementSecond }).addClass('btn').attr('data-action', 'decrementSeconds')
-                            .append($('<i>').addClass(options.icons.down))));
+                            .append(addIcon('down'))));
                 }
 
                 if (!use24Hours) {
@@ -312,16 +322,16 @@
             getToolbar = function () {
                 var row = [];
                 if (options.showTodayButton) {
-                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'today', 'title': options.tooltips.today }).append($('<i>').addClass(options.icons.today))));
+                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'today', 'title': options.tooltips.today }).append(addIcon('today'))));
                 }
                 if (!options.sideBySide && hasDate() && hasTime()) {
-                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'togglePicker', 'title': options.tooltips.selectTime }).append($('<i>').addClass(options.icons.time))));
+                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'togglePicker', 'title': options.tooltips.selectTime }).append(addIcon('time'))));
                 }
                 if (options.showClear) {
-                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'clear', 'title': options.tooltips.clear }).append($('<i>').addClass(options.icons.clear))));
+                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'clear', 'title': options.tooltips.clear }).append(addIcon('clear'))));
                 }
                 if (options.showClose) {
-                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'close', 'title': options.tooltips.close }).append($('<i>').addClass(options.icons.close))));
+                    row.push($('<td>').append($('<a>').attr({ 'data-action': 'close', 'title': options.tooltips.close }).append(addIcon('close'))));
                 }
                 return $('<table>').addClass('table-condensed').append($('<tbody>').append($('<tr>').append(row)));
             },
@@ -1484,6 +1494,23 @@
             options.ignoreReadonly = ignoreReadonly;
             return picker;
         };
+
+        picker.iconsSource = function (iconsSource) {
+            if (arguments.length === 0) {
+                return options.iconsSource;
+            }
+
+            if (typeof iconsSource !== 'string') {
+                throw new TypeError('iconsSource () expects a string parameter');
+            }
+
+            if (iconsSource !== 'material' && iconsSource !== 'fontAwesome') {
+                throw new TypeError('iconsSource() parameter must be one of ["material", "fontAwesome"]');
+            }
+
+            options.iconsSource = iconsSource;
+            return picker;
+        }
 
         picker.options = function (newOptions) {
             if (arguments.length === 0) {
